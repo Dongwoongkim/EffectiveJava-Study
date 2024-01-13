@@ -12,7 +12,8 @@
 
 ### 1. 생성자
 
-`public class Person {
+```
+public class Person {
 
     private String name;
 
@@ -25,13 +26,15 @@
     *// arugment를 주입받지 않고 Person 인스턴스 생성*public Person() {
         this.name = "Anonymous";
     }
-}`
+}
+```
 
 사실은 public 생성자를 사용하는 방법 말고도 또 다른 방법이 하나 더 있습니다. 바로 이 Item에서 추천하는 정적 팩토리 메소드를 사용하는 방법입니다. 아래 처럼요.
 
 ### 2. 정적 팩토리 메소드
 
-`public class Person {
+```
+public class Person {
 
     private static Person PERSON = new Person();
     
@@ -40,7 +43,8 @@
      */*private static Person getInstance() {
         return PERSON;
     }
-}`
+}
+```
 
 static 영역에 기본 생성자를 만들어 두고, 필요할 때 마다 메소드를 호출하여 인스턴스를 생성하는 방법입니다.
 
@@ -54,7 +58,8 @@ static 영역에 기본 생성자를 만들어 두고, 필요할 때 마다 메�
 
 한 클래스에 대한 생성자가 여러 개 필요하다면, 생성자에 넘기는 매개변수와 생성자 자체만으로는 반환될 객체의 특성을 제대로 이해하기에는 어려움이 있습니다.
 
-`package chapter1.item1;
+```
+package chapter1.item1;
 
 public class Person {
 
@@ -91,7 +96,8 @@ public class Person {
         this.age = age;
         this.sex = sex;
     }
-}`
+}
+```
 
 생성자를 이렇게 무분별하게 만들어 놓으면 클라이언트 입장에서는 각 생성자가 인스턴스의 attribute에 어떤 값을 대입할 지 혼란을 일으킬 수 있습니다.
 
@@ -101,7 +107,8 @@ public class Person {
 
 반면 정적 팩토리 메소드는 메소드 자체에 이름을 부여할 수 있기 때문에, 메소드 작명만 잘 한다면 반환될 인스턴스의 특성을 쉽게 묘사할 수 있습니다.
 
-`public class Person {
+```
+public class Person {
 
     private String name;
     private Integer age;
@@ -115,31 +122,37 @@ public class Person {
 
         return person;
     }
-}`
+}
+```
 
 즉, 하나의 createByName 이라는 시그니처로는 생성자를 하나만 만들도록 함으로써 개발자나 코드를 읽는 사람으로 하여금 혼란을 방지할 수 있습니다.
 
 ### 2. 호출할 때 마다 인스턴스를 새로 생성하지 않아도 된다.
 
-`public class Human {
+```
+public class Human {
 
     private static final Human DEFAUT_HUMAN = new Human();
 
     private static Human getInstance() {
         return DEFAUT_HUMAN;
     }
-}`
+}
+```
 
-`public class Main {
+```
+public class Main {
 
     public static void main(String[] args) {
         Human human = Human.getInstance();
     }
-}`
+}
+```
 
 이 덕분에 불변 클래스는 인스턴스를 미리 만들어 놓거나 새로 생성한 인스턴스를 캐싱하여 재활용하는 방식으로 불필요한 객체 생성을 피할 수 있습니다.
 
-`public class Human {
+```
+public class Human {
 
     private static final Human DEFAUT_HUMAN = new Human();
     
@@ -148,11 +161,13 @@ public class Person {
     public static Human getInstance() {
         return DEFAUT_HUMAN;
     }
-}`
+}
+```
 
 - 이렇게 정적 팩토리 메소드를 사용할 때는 기본 생성자의 제어자를 private으로 막아줌으로써 new 키워드를 통한 객체 생성을 막아줍니다.
 
-`@jdk.internal.ValueBased
+```
+@jdk.internal.ValueBased
 public final class Boolean implements java.io.Serializable,
 Comparable<Boolean>, Constable
 {
@@ -169,15 +184,14 @@ Comparable<Boolean>, Constable
 `@IntrinsicCandidate
 public static Boolean valueOf(boolean b) {
 return (b ? TRUE : FALSE);
-}`
+}
+```
 
 대표적인 예시로, Boolean.valueOf(boolean) 메소드는 이렇게 객체를 아예 생성하지 않고, 내부에서 static 영역에 올려둔 객체를 꺼내다 써서 재활용하는 방식으로 사용되는 것을 볼 수 있습니다.
 
 ***객체가 자주 요청되는 상황에서 이 패턴을 적용한다면 성능을 끌어 올려줄 수 있겠습니다.***
 
-> 여기서 말하는 불변 클래스란?
->
-
+여기서 말하는 불변 클래스란?
 이와 비슷한 기법으로는 **플라이웨이트 패턴 (Flyweight pattern)**이 있습니다.
 
 - 공유를 통해 다양한 객체들을 효과적으로 지원하는 방법으로,
@@ -265,7 +279,8 @@ public class Application {
 
 ### 1. 상속을 하려면 public이나 protected 생성자가 필요하므로 하위 클래스를 만들 수 없다.
 
-`public class Person {
+```
+public class Person {
 
     private String name;
 
@@ -276,10 +291,13 @@ public class Application {
         person.name = name;
         return person;
     }
-}`
+}
+```
 
-`public class Animal extends Person { *// X, Compile Error*
-}`
+```
+public class Animal extends Person { *// X, Compile Error*
+}
+```
 
 - 위와 같이 정적 팩토리 생성자 메소드를 사용했을 때는 private으로 기본 생성자를 막아두는 것이 일반적이기 때문에, 상속을 통한 확장이 어렵습니다.
 - 하지만 어찌보면 이 제약은 상속보다 컴포지션을 사용하도록 유도함과, 동시에 불변타입으로 만들려면 이 제약을 지켜야 한다는 점에서 장점으로 볼 수도 있겠습니다.
