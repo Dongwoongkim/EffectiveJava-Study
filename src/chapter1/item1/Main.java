@@ -6,6 +6,5 @@ public class Main {
         Human human = Human.getInstance();
         Human human2 = Human.getInstance();
 
-        System.out.println(human == human2); // true
     }
 }
