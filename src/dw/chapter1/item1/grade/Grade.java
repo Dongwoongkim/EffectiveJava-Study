@@ -18,7 +18,6 @@ public interface Grade
         if (score >= 60) {
             return new D();
         }
-
         return new F();
     }
 }
