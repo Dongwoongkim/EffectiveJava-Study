@@ -59,7 +59,7 @@ static 영역에 기본 생성자를 만들어 두고, 필요할 때 마다 메�
 한 클래스에 대한 생성자가 여러 개 필요하다면, 생성자에 넘기는 매개변수와 생성자 자체만으로는 반환될 객체의 특성을 제대로 이해하기에는 어려움이 있습니다.
 
 ```
-package chapter1.item1;
+package dw.chapter1.item1;
 
 public class Person {
 

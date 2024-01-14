@@ -1,4 +1,4 @@
-package chapter1.item1.grade;
+package dw.chapter1.item1.grade;
 
 public class Main {
     public static void main(String[] args) {

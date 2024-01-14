@@ -1,4 +1,4 @@
-package chapter1.item1;
+package dw.chapter1.item1;
 
 public class Main {
 
